@@ -7,16 +7,37 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Launch",
-            "program": "${workspaceFolder}/target/debug/rust-social",
+            "name": "Debug executable 'rust-social'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=rust-social",
+                    "--package=rust-social"
+                ],
+                "filter": {
+                    "name": "rust-social",
+                    "kind": "bin"
+                }
+            },
             "args": [],
             "cwd": "${workspaceFolder}"
         },
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug",
-            "program": "${workspaceFolder}/target/debug/rust-social",
+            "name": "Debug unit tests in executable 'rust-social'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=rust-social",
+                    "--package=rust-social"
+                ],
+                "filter": {
+                    "name": "rust-social",
+                    "kind": "bin"
+                }
+            },
             "args": [],
             "cwd": "${workspaceFolder}"
         }

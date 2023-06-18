@@ -1,13 +1,15 @@
 use axum::{
     routing::{get, post},
     http::StatusCode,
-    response::IntoResponse,
+    // response::IntoResponse,
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use Iterator;
-mod db;
+// mod database;
+pub mod database;
+use crate::database::database::dbtest;
 
 #[tokio::main]
 async fn main() {
@@ -31,7 +33,7 @@ async fn main() {
 }
 
 async fn db() -> String {
-    let test = match db::dbtest() {
+    let test = match dbtest() {
         Ok(person) => person,
         Err(error) => panic!("Problem: {:?}", error),
     };
@@ -40,7 +42,7 @@ async fn db() -> String {
     //     .map(|person| person.to_string())
     //     .collect();
 
-    "e".to_string()
+    "efy".to_string()
 }
 
 // basic handler that responds with a static string
