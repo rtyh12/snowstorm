@@ -1,4 +1,6 @@
 pub mod user;
+use std::sync::Arc;
+
 use crate::database::user::User;
 
 use rusqlite::{Connection, Result};
@@ -42,6 +44,7 @@ pub async fn dbtest() -> Result<Vec<User>> {
     // Ok("none".to_string())
 }
 
+#[derive(Clone)]
 pub struct MockDatabase;
 
 #[axum::async_trait]
@@ -62,6 +65,6 @@ impl Database for MockDatabase {
     }
 }
 
-pub async fn get_users(database: &impl Database) -> Vec<User> {
+pub async fn get_users(database: Arc<MockDatabase>) -> Vec<User> {
     database.get_users().await
 }
