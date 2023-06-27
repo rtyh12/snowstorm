@@ -1,4 +1,4 @@
-use axum::{routing::get, Router, Extension, extract::State};
+use axum::{routing::get, Router, extract::State};
 use std::{net::SocketAddr, sync::Arc};
 use Iterator;
 mod database;
@@ -9,7 +9,7 @@ use crate::database::{Database, MockDatabase};
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let database_connection = Arc::new(MockDatabase {});
+    let database_connection = Arc::new(crate::database::MockDatabase2 {});
 
     let app = Router::new()
         .route("/", get(root))
@@ -24,18 +24,10 @@ async fn main() {
         .unwrap();
 }
 
-pub async fn users(State(database_connection): State<Arc<MockDatabase>>) -> String {
+pub async fn users(State(database_connection): State<Arc<impl Database>>) -> String {
     let test = database::get_users(database_connection).await;
     serde_json::to_string_pretty(&test).unwrap()
-    // "a".to_string()
 }
-
-// async fn users_db() -> String {
-//     let database_connection = MockDatabase {};
-//     let test = database::get_users(&database_connection).await;
-//     serde_json::to_string_pretty(&test).unwrap()
-//     // "a".to_string()
-// }
 
 async fn root() -> &'static str {
     "Hello, Worldyyy!"

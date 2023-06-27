@@ -65,6 +65,22 @@ impl Database for MockDatabase {
     }
 }
 
-pub async fn get_users(database: Arc<MockDatabase>) -> Vec<User> {
+#[derive(Clone)]
+pub struct MockDatabase2;
+
+#[axum::async_trait]
+impl Database for MockDatabase2 {
+    async fn get_users(&self) -> Vec<User> {
+        vec![
+            User {
+                id: 123,
+                name: "Hello".to_string(),
+                data: None,
+            },
+        ]
+    }
+}
+
+pub async fn get_users(database: Arc<impl Database>) -> Vec<User> {
     database.get_users().await
 }
