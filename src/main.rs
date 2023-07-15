@@ -1,15 +1,16 @@
-use axum::{routing::get, Router, extract::State};
+use axum::{extract::State, routing::get, Router};
 use std::{net::SocketAddr, sync::Arc};
-use Iterator;
-mod database;
 
-use crate::database::{Database, MockDatabase};
+use crate::database::backend_mock::MockDatabase;
+use crate::database::Database;
+
+mod database;
 
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let database_connection = Arc::new(crate::database::MockDatabase2 {});
+    let database_connection = Arc::new(MockDatabase {});
 
     let app = Router::new()
         .route("/", get(root))
@@ -25,7 +26,7 @@ async fn main() {
 }
 
 pub async fn users(State(database_connection): State<Arc<impl Database>>) -> String {
-    let test = database::get_users(database_connection).await;
+    let test = database_connection.get_posts().await;
     serde_json::to_string_pretty(&test).unwrap()
 }
 
