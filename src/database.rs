@@ -3,12 +3,12 @@ use self::database_models::User;
 pub mod backend_mock;
 pub mod database_models;
 
-pub type PostId = i128;
-pub type UserId = i64;
+pub type PostId = u128;
+pub type UserId = u64;
 
 #[axum::async_trait]
 pub trait Database {
-    async fn get_posts(&self, for_user_id: Option<UserId>) -> Vec<database_models::Post>;
+    async fn get_posts(&self, for_user_id: UserId) -> Vec<database_models::Post>;
     async fn get_posts_by_user(&self, user_id: UserId) -> Vec<database_models::Post>;
     async fn get_comments_for_post(&self, post_id: PostId) -> Vec<database_models::Post>;
 

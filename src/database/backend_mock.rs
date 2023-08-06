@@ -4,7 +4,7 @@ use super::*;
 
 #[axum::async_trait]
 impl Database for MockDatabase {
-    async fn get_posts(&self, for_user_id: Option<UserId>) -> Vec<database_models::Post> {
+    async fn get_posts(&self, for_user_id: UserId) -> Vec<database_models::Post> {
         vec![
             database_models::Post {
                 id: 0,
