@@ -29,7 +29,7 @@ impl Database for MockDatabase {
         vec![
             database_models::Post {
                 id: 0,
-                user_id: 0,
+                user_id: user_id,
                 content: "same".to_string(),
                 parent_id: None,
                 likes: 10,
@@ -37,7 +37,7 @@ impl Database for MockDatabase {
             },
             database_models::Post {
                 id: 1,
-                user_id: 0,
+                user_id: user_id,
                 content: "user".to_string(),
                 parent_id: Some(0),
                 likes: 100,
@@ -49,7 +49,7 @@ impl Database for MockDatabase {
     async fn get_comments_for_post(&self, post_id: PostId) -> Vec<database_models::Post> {
         vec![
             database_models::Post {
-                id: 0,
+                id: post_id,
                 user_id: 0,
                 content: "same".to_string(),
                 parent_id: None,
@@ -57,7 +57,7 @@ impl Database for MockDatabase {
                 comments_ids: vec![1],
             },
             database_models::Post {
-                id: 1,
+                id: post_id + 1,
                 user_id: 0,
                 content: "user".to_string(),
                 parent_id: Some(0),
@@ -68,7 +68,7 @@ impl Database for MockDatabase {
     }
 
     async fn get_user(&self, with_id: UserId) -> User {
-        User { id: 100, name: "obama".to_string(), bio: Some("hola".to_string()) }
+        User { id: with_id, name: "obama".to_string(), bio: Some("hola".to_string()) }
     }
 
     async fn make_post(

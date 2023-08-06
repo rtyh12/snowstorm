@@ -14,7 +14,7 @@ pub struct Post {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
-    pub id: PostId,
+    pub id: UserId,
     pub name: String,
     pub bio: Option<String>,
 }
