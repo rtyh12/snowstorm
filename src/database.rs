@@ -8,6 +8,8 @@ pub type UserId = u64;
 
 #[axum::async_trait]
 pub trait Database {
+    fn new(&self) -> Self;
+    
     async fn get_posts(&self, for_user_id: UserId) -> Vec<database_models::Post>;
     async fn get_posts_by_user(&self, user_id: UserId) -> Vec<database_models::Post>;
     async fn get_comments_for_post(&self, post_id: PostId) -> Vec<database_models::Post>;
@@ -21,11 +23,14 @@ pub trait Database {
         parent_id: Option<PostId>,
         auth_key: String,
     ) -> bool;
+
+    // Add user
+    // Login
 }
 
 // pub async fn dbtest() -> Result<Vec<database_models::Post>> {
 //     let conn: Connection = Connection::open("test.db")?;
-//
+
 //     conn.execute(
 //         "CREATE TABLE IF NOT EXISTS User (
 //             id   INTEGER PRIMARY KEY,
@@ -43,7 +48,7 @@ pub trait Database {
 //         "INSERT INTO User (name, data) VALUES (?1, ?2)",
 //         (&me.name, &me.data),
 //     )?;
-//
+
 //     let mut stmt = conn.prepare("SELECT id, name, data FROM User")?;
 //     let user_iter = stmt.query_map([], |row| {
 //         Ok(database_models::Post {
@@ -52,7 +57,7 @@ pub trait Database {
 //             data: row.get(2)?,
 //         })
 //     })?;
-//
+
 //     user_iter.collect()
 //     // Ok("none".to_string())
 // }

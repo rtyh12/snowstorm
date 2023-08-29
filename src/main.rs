@@ -13,15 +13,21 @@ mod database;
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let database_connection = Arc::new(MockDatabase {});
+    let database_connection = Arc::new(MockDatabase::new {});
 
     let app = Router::new()
         .route("/", get(root))
         .route("/get_posts/:user_id", get(get_posts))
         .route("/get_posts_by_user/:user_id", get(get_posts_by_user))
-        .route("/get_comments_for_post/:post_id", get(get_comments_for_post))
+        .route(
+            "/get_comments_for_post/:post_id",
+            get(get_comments_for_post),
+        )
         .route("/get_user/:with_id", get(get_user))
-        .route("/make_post/:user_id/:content/:parent_id/:auth_key", post(make_post))
+        .route(
+            "/make_post/:user_id/:content/:parent_id/:auth_key",
+            post(make_post),
+        )
         .with_state(database_connection);
 
     let addr = SocketAddr::from(([192, 168, 0, 202], 3000));
@@ -34,7 +40,7 @@ async fn main() {
 
 pub async fn get_posts(
     Path(user_id): Path<UserId>,
-    State(database_connection): State<Arc<impl Database>>
+    State(database_connection): State<Arc<impl Database>>,
 ) -> String {
     let test = database_connection.get_posts(user_id).await;
     serde_json::to_string_pretty(&test).unwrap()
@@ -42,7 +48,7 @@ pub async fn get_posts(
 
 pub async fn get_posts_by_user(
     Path(user_id): Path<UserId>,
-    State(database_connection): State<Arc<impl Database>>
+    State(database_connection): State<Arc<impl Database>>,
 ) -> String {
     let test = database_connection.get_posts_by_user(user_id).await;
     serde_json::to_string_pretty(&test).unwrap()
@@ -50,7 +56,7 @@ pub async fn get_posts_by_user(
 
 pub async fn get_comments_for_post(
     Path(post_id): Path<PostId>,
-    State(database_connection): State<Arc<impl Database>>
+    State(database_connection): State<Arc<impl Database>>,
 ) -> String {
     let test = database_connection.get_comments_for_post(post_id).await;
     serde_json::to_string_pretty(&test).unwrap()
@@ -58,7 +64,7 @@ pub async fn get_comments_for_post(
 
 pub async fn get_user(
     Path(with_id): Path<UserId>,
-    State(database_connection): State<Arc<impl Database>>
+    State(database_connection): State<Arc<impl Database>>,
 ) -> String {
     let test = database_connection.get_user(with_id).await;
     serde_json::to_string_pretty(&test).unwrap()
@@ -66,9 +72,11 @@ pub async fn get_user(
 
 pub async fn make_post(
     Path((user_id, content, parent_id, auth_key)): Path<(UserId, String, PostId, String)>,
-    State(database_connection): State<Arc<impl Database>>
+    State(database_connection): State<Arc<impl Database>>,
 ) -> String {
-    let test = database_connection.make_post(user_id, content, Some(parent_id), auth_key).await;
+    let test = database_connection
+        .make_post(user_id, content, Some(parent_id), auth_key)
+        .await;
     serde_json::to_string_pretty(&test).unwrap()
 }
 
