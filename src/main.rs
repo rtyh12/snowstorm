@@ -4,6 +4,7 @@ use axum::{extract::State, routing::get, Router};
 use database::{PostId, UserId};
 use std::{net::SocketAddr, sync::Arc};
 
+use crate::database::backend_sqlite::SQLiteDatabase;
 use crate::database::backend_mock::MockDatabase;
 use crate::database::Database;
 
@@ -13,7 +14,8 @@ mod database;
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let database_connection = Arc::new(MockDatabase::new {});
+    let database_connection = Arc::new(SQLiteDatabase::new());
+    // let database_connection = Arc::new(SQLiteDatabase {});
 
     let app = Router::new()
         .route("/", get(root))

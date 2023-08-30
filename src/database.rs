@@ -1,6 +1,7 @@
 use self::database_models::User;
 
 pub mod backend_mock;
+pub mod backend_sqlite;
 pub mod database_models;
 
 pub type PostId = u128;
@@ -8,7 +9,7 @@ pub type UserId = u64;
 
 #[axum::async_trait]
 pub trait Database {
-    fn new(&self) -> Self;
+    fn new() -> Self;
     
     async fn get_posts(&self, for_user_id: UserId) -> Vec<database_models::Post>;
     async fn get_posts_by_user(&self, user_id: UserId) -> Vec<database_models::Post>;

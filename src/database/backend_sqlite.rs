@@ -1,14 +1,23 @@
-pub struct SQLiteDatabase;
-
 use super::*;
+use std::{net::SocketAddr, sync::Arc, sync::Mutex};
+
+pub struct SQLiteDatabase {
+    connection: Arc<Mutex<rusqlite::Connection>>,
+}
 
 #[axum::async_trait]
 impl Database for SQLiteDatabase {
-    fn new(&self) -> Self {
-        // let self.conn: Connection = Connection::open("test.db")?;
+    fn new() -> Self {
+        // TODO maybe not unwrap?????
+        let connection = rusqlite::Connection::open("test.db").unwrap();
+
+        Self {
+            connection: Arc::new(Mutex::new(connection)),
+        }
     }
 
     async fn get_posts(&self, for_user_id: UserId) -> Vec<database_models::Post> {
+        
         vec![
             database_models::Post {
                 id: 0,
@@ -72,7 +81,11 @@ impl Database for SQLiteDatabase {
     }
 
     async fn get_user(&self, with_id: UserId) -> User {
-        User { id: with_id, name: "obama".to_string(), bio: Some("hola".to_string()) }
+        User {
+            id: with_id,
+            name: "obama".to_string(),
+            bio: Some("hola".to_string()),
+        }
     }
 
     async fn make_post(
@@ -82,6 +95,6 @@ impl Database for SQLiteDatabase {
         parent_id: Option<PostId>,
         auth_key: String,
     ) -> bool {
-        return false; 
+        return false;
     }
 }

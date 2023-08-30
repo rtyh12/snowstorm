@@ -1,18 +1,11 @@
 use super::*;
 
-pub struct MockDatabase {
-    connection: rusqlite::Connection,
-}
+pub struct MockDatabase;
 
 #[axum::async_trait]
 impl Database for MockDatabase {
-    fn new(&self) -> Self {
-        // TODO maybe not unwrap?????
-        let connection = rusqlite::Connection::open("test.db").unwrap();
-
-        Self {
-            connection,
-        }
+    fn new() -> Self {
+        Self {}
     }
 
     async fn get_posts(&self, for_user_id: UserId) -> Vec<database_models::Post> {
