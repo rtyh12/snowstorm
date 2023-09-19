@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ ! $local_branch =~ "main" ]]
+then
+    cargo build --release
+	git add -f target/release/rust-social
+fi
