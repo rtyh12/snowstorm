@@ -14,7 +14,7 @@ mod database;
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let database_connection = Arc::new(SQLiteDatabase::new());
+    let database_connection = Arc::new(MockDatabase::new());
     // let database_connection = Arc::new(SQLiteDatabase {});
 
     let app = Router::new()
@@ -32,7 +32,8 @@ async fn main() {
         )
         .with_state(database_connection);
 
-    let addr = SocketAddr::from(([192, 168, 0, 202], 3000));
+    // let addr = SocketAddr::from(([192, 168, 0, 202], 3000));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
