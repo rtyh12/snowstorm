@@ -33,7 +33,7 @@ async fn main() {
         .with_state(database_connection);
 
     // let addr = SocketAddr::from(([192, 168, 0, 202], 3000));
-    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8001));
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
