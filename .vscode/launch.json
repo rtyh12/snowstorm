@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'rust-social'",
+            "name": "Debug executable 'snowstorm'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=rust-social",
-                    "--package=rust-social"
+                    "--bin=snowstorm",
+                    "--package=snowstorm"
                 ],
                 "filter": {
-                    "name": "rust-social",
+                    "name": "snowstorm",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'rust-social'",
+            "name": "Debug unit tests in executable 'snowstorm'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=rust-social",
-                    "--package=rust-social"
+                    "--bin=snowstorm",
+                    "--package=snowstorm"
                 ],
                 "filter": {
-                    "name": "rust-social",
+                    "name": "snowstorm",
                     "kind": "bin"
                 }
             },

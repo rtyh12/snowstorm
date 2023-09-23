@@ -84,5 +84,5 @@ pub async fn make_post(
 }
 
 async fn root() -> &'static str {
-    "Hello, Worldyyy!"
+    "BLAAAAAAHHH"
 }

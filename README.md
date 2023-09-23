@@ -1,4 +1,4 @@
-# rust-social
+# snowstorm
 
 Backend for a social media site, intended to be a basic Twitter clone. Still very much a work in progress
 
